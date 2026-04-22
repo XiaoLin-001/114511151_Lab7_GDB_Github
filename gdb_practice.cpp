@@ -16,7 +16,7 @@ public:
     string id;
     child* dad;
 
-    child(int a, string b) { value = a; id = b; dad = nullptr; } // 故意讓 dad 為 null
+    child(int a, string b) { value = a; id = b; dad = nullptr;} // 故意讓 dad 為 null
     void printinfo() { 
         cout << dad->value << " "; 
         cout << dad->id << endl;
@@ -28,6 +28,7 @@ void stage1() {
     child* y = new child(60, "root");
     child* x = new child(50, "child");
     
+    x->dad = y;
     x->printinfo(); 
     
     cout << "[Stage 1] 通過！指標問題已修復。" << endl;
@@ -44,9 +45,15 @@ public:
     int age_;
     
     person(char* n, int a) {
-        int length = strlen(n); 
-        name_ = new char[length + 1];
-        strcpy(name_, n);
+        if(n != nullptr){
+            int length = strlen(n); 
+            name_ = new char[length + 1];
+            strcpy(name_, n);   
+        }
+        else{
+            name_ = new char[1];
+            name_[0] = '\0';
+        }
         age_ = a;
     }
     ~person() { delete[] name_; }
@@ -69,7 +76,7 @@ void stage2() {
 int summation(int array[]) {
     int result = 0;
 
-    for (unsigned int i = size; i >= 0; --i) {
+    for (int i = size-1; i >= 0; --i) {
         result += array[i];
     }
     return result;
